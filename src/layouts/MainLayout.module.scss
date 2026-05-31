@@ -1,0 +1,23 @@
+.header {
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+
+  justify-content: space-between;
+  // .left {
+  //   flex: 1;
+  // }
+
+  // .right {
+  //   flex: 1;
+  //   text-align: right;
+  // }
+}
+
+.main {
+  min-height: calc(100vh - 64px - 65px);
+}
+
+.footer {
+  text-align: center;
+}

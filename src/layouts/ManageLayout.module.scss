@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  padding: 24px 0;
+  max-width: 1200px;
+  // margin: 0 auto;
+  justify-content: center;
+}
+
+.left {
+  width: 120px;
+}
+
+.right {
+  // flex: 1;
+  width: 800px; // 寬度會被flex影響
+  // flex-shrink: 0; // 不允許縮小
+  margin-left: 60px;
+}
+
+// margin + flex = justify + width

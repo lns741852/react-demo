@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: space-between;
+
+  .left {
+    // flex: 1;
+
+    //使用module.scss時，會加上hash值，導致ant-typography的樣式無法生效，所以需要使用:global來覆蓋樣式
+    :global(.ant-typography) {
+      margin: 0;
+    }
+  }
+  .right {
+    // flex: 1;
+    // text-align: right;
+  }
+}
+
+.content {
+  margin-bottom: 20px;
+}
+
+.footer {
+  text-align: center;
+}

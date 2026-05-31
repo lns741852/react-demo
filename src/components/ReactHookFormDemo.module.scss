@@ -1,0 +1,93 @@
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 32px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  margin-bottom: 24px;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-weight: 600;
+  }
+
+  input,
+  textarea,
+  select {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+      border-color: #1677ff;
+    }
+  }
+}
+
+.inline {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.error {
+  color: #ff4d4f;
+  font-size: 13px;
+}
+
+.addressRow {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+
+  input {
+    flex: 1;
+  }
+
+  button {
+    background: #ff4d4f;
+  }
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 12px;
+
+  button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #1677ff;
+    color: white;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.status {
+  margin-top: 12px;
+  color: #666;
+}

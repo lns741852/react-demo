@@ -33,3 +33,57 @@ export const useUserCrud = () => {
     deleteUser,
   };
 };
+
+
+/*  crud常用方法
+
+// 新增
+[...prev, item]
+[item, ...prev]
+
+// 更新
+prev.map(...)
+
+// 刪除
+prev.filter(...)
+
+// 查找
+prev.find(...)
+prev.some(...)
+
+// 排序
+[...prev].sort(...)
+
+// 合併
+[...prev, ...newItems]
+
+// 物件更新
+{
+  ...prev,
+  name: 'Tom'
+}
+
+// 物件刪除欄位
+const { password, ...rest } = prev
+*/
+
+
+/* 
+
+// 陣列轉物件 
+
+const users = [
+  { id: 1, name: 'Tom' },
+  { id: 2, name: 'John' },
+];
+
+const userMap = users.reduce((acc, user) => {
+  acc[user.id] = user;
+  return acc;
+}, {} as Record<number, UserItem>);
+
+{
+  1: { id: 1, name: 'Tom' },
+  2: { id: 2, name: 'John' }
+}
+*/

@@ -89,6 +89,16 @@ const ManageLayout: FC = () => {
           >
             Table_CRUD
           </Button>
+          <Button
+            type={pathname.startsWith('/manage/agGridForm') ? 'default' : 'text'}
+            size="large"
+
+            onClick={() => nav('/manage/agGridForm')}
+          >
+            AgGridForm
+          </Button>
+
+
         </Space>
       </div>
 

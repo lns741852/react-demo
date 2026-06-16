@@ -15,6 +15,8 @@ import Star from '../pages/manage/Star'
 import MainLayout from '@/layouts/MainLayout'
 
 import UserCrudDemo from '@/pages/Table'
+import  GridForm  from '@/pages/manage/AgGridForm'
+
 
 // 路由懒加载，拆分 bundle ，优化首页体积
 const Edit = lazy(() => import('../pages/question/Edit'))
@@ -56,7 +58,15 @@ const router = createBrowserRouter([
           {
             path: 'userCrudDemo',
             element: <UserCrudDemo />,
+            
           },
+          {
+            path: 'agGridForm',
+            element: <GridForm />,
+            
+          },
+
+          
         ],
       },
       {

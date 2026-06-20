@@ -1,94 +1,75 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { Button, message, Space, Typography } from "antd";
 
 import UserCardList from "@/components/UserCardList";
-import UserFormModal from "@/components/UserFormModal";
+import UserFormModal from "@/components/User/UserFormModal";
 import UserTable from "@/components/UserTable";
 import { useUserCrud } from "@/hooks/useUserCrud";
-import type { ModalMode, UserFormValues, UserItem } from "@/types/user";
+import type { UserFormValues } from "@/types/user";
 import { useResponsive } from "@/hooks/useResponsive";
 import UserQuery from "@/components/User/UserQuery";
+import { useUserDialog } from "@/hooks/useUserDialog";
 
 const UserPage: FC = () => {
   const isMobile = useResponsive();
 
-  /**
-   *  CRUD Hook
-   */
-  const { list, updateUser, deleteUser, createUser, searchUsers, loading } =
-    useUserCrud();
+  const userManager = useUserCrud();
 
-  /**
-   * Modal 相關狀態
-   */
-  const [open, setOpen] = useState<boolean>(false);
-  const [editingItem, setEditingItem] = useState<UserItem | null>(null);
-  const [modalMode, setModalMode] = useState<ModalMode>("create");
-
-  /**
-   * =========================
-   * Event Handlers
-   * =========================
-   */
-  const handleCancel = (): void => {
-    setOpen(false);
-    setEditingItem(null);
-  };
-
-  const handleEdit = (record: UserItem): void => {
-    setModalMode("edit");
-    setEditingItem(record);
-    setOpen(true);
-  };
+  const dialog = useUserDialog();
 
   const handleDelete = (id: number): void => {
-    deleteUser(id);
+    userManager.deleteUser(id);
     message.success("刪除成功");
   };
 
-  const handleCreate = (): void => {
-    setModalMode("create");
-    setEditingItem(null);
-    setOpen(true);
-  };
-
   const handleSubmit = async (values: UserFormValues): Promise<void> => {
-    if (modalMode === "create") {
-      createUser(values);
+    if (dialog.modalMode === "create") {
+      userManager.createUser(values);
       message.success("新增成功");
     }
 
-    if (modalMode === "edit" && editingItem) {
-      updateUser(editingItem.id, values);
+    if (dialog.modalMode === "edit" && dialog.editingItem) {
+      userManager.updateUser(dialog.editingItem.id, values);
       message.success("更新成功");
     }
-    handleCancel();
+    dialog.handleCancel();
   };
 
   return (
     <Space direction="vertical" size={24} style={{ width: "100%" }}>
       <Typography.Title level={3}>User CRUD Demo</Typography.Title>
 
-      <UserQuery loading={loading} onSearch={searchUsers} />
+      <UserQuery
+        loading={userManager.loading}
+        onSearch={userManager.searchUsers}
+      />
 
       <Space style={{ width: "100%", justifyContent: "flex-end" }}>
-        <Button type="primary" onClick={handleCreate}>
+        <Button type="primary" onClick={dialog.handleCreate}>
           新增使用者
         </Button>
       </Space>
 
       {/* 列表組件 */}
       {isMobile ? (
-        <UserCardList list={list} onEdit={handleEdit} onDelete={handleDelete} />
+        <UserCardList
+          list={userManager.list}
+          onEdit={dialog.handleEdit}
+          onDelete={handleDelete}
+        />
       ) : (
-        <UserTable list={list} onEdit={handleEdit} onDelete={handleDelete} />
+        <UserTable
+          list={userManager.list}
+          onEdit={dialog.handleEdit}
+          onDelete={handleDelete}
+        />
       )}
 
       <UserFormModal
-        mode={modalMode}
-        open={open}
-        initialValues={editingItem}
-        onCancel={handleCancel}
+        mode={dialog.modalMode}
+        open={dialog.open}
+        initialValues={dialog.editingItem}
+        onCancel={dialog.handleCancel}
         onSubmit={handleSubmit}
       />
     </Space>

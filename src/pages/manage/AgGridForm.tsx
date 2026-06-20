@@ -1,4 +1,4 @@
-//-----------------------------自定義select
+// -----------------------------自定義select
 
 // import React, { useState, useRef, useEffect, forwardRef } from 'react';
 // import { AgGridProvider, AgGridReact, CustomCellEditorProps, useGridCellEditor } from 'ag-grid-react';
@@ -150,187 +150,187 @@
 //   );
 // };
 
-// import React, { FC, useState, useMemo } from "react";
-// import { AgGridProvider, AgGridReact } from "ag-grid-react";
-// import { Button, Select, MenuItem, CircularProgress } from "@mui/material";
-// import {
-//   ColDef,
-//   GridReadyEvent,
-//   GridApi,
-//   AllCommunityModule,
-// } from "ag-grid-community";
+import React, { FC, useState, useMemo } from "react";
+import { AgGridProvider, AgGridReact } from "ag-grid-react";
+import { Button, Select, MenuItem, CircularProgress } from "@mui/material";
+import {
+  ColDef,
+  GridReadyEvent,
+  GridApi,
+  AllCommunityModule,
+} from "ag-grid-community";
 
-// const modules = [AllCommunityModule];
+const modules = [AllCommunityModule];
 
-// interface DepartmentOption {
-//   label: string;
-//   value: string;
-// }
+interface DepartmentOption {
+  label: string;
+  value: string;
+}
 
-// interface RowData {
-//   id: number;
-//   name: string;
-//   department: string;
-// }
+interface RowData {
+  id: number;
+  name: string;
+  department: string;
+}
 
-// const GridForm: FC = () => {
-//   // 1. 用 useState 儲存 AG-Grid 原生的 API 實例
-//   const [gridApi, setGridApi] = useState<GridApi<RowData> | null>(null);
+const GridForm: FC = () => {
+  // 1. 用 useState 儲存 AG-Grid 原生的 API 實例
+  const [gridApi, setGridApi] = useState<GridApi<RowData> | null>(null);
 
-//   const [rowData, setRowData] = useState<RowData[]>([
-//     { id: 1, name: "John", department: "" },
-//     { id: 2, name: "", department: "" },
-//     { id: 3, name: "Tom", department: "" },
-//   ]);
+  const [rowData, setRowData] = useState<RowData[]>([
+    { id: 1, name: "John", department: "" },
+    { id: 2, name: "", department: "" },
+    { id: 3, name: "Tom", department: "" },
+  ]);
 
-//   /**
-//    * Mock API
-//    */
-//   const fetchDepartments = (): Promise<DepartmentOption[]> => {
-//     return new Promise((resolve) => {
-//       setTimeout(() => {
-//         resolve([
-//           { label: "研發部", value: "RD" },
-//           { label: "人資部", value: "HR" },
-//           { label: "業務部", value: "SALES" },
-//         ]);
-//       }, 1000);
-//     });
-//   };
+  /**
+   * Mock API
+   */
+  const fetchDepartments = (): Promise<DepartmentOption[]> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve([
+          { label: "研發部", value: "RD" },
+          { label: "人資部", value: "HR" },
+          { label: "業務部", value: "SALES" },
+        ]);
+      }, 1000);
+    });
+  };
 
-//   /**
-//    * 2. 當表格準備就緒時，觸發此原生事件並取得 api
-//    */
-//   const onGridReady = (params: GridReadyEvent<RowData>) => {
-//     setGridApi(params.api);
-//   };
+  /**
+   * 2. 當表格準備就緒時，觸發此原生事件並取得 api
+   */
+  const onGridReady = (params: GridReadyEvent<RowData>) => {
+    setGridApi(params.api);
+  };
 
-//   /**
-//    * 3. 提交按鈕事件：透過原生的 gridApi 讀取資料
-//    */
-//   const handleSubmit = () => {
-//     if (!gridApi) {
-//       alert("表格尚未準備就緒");
-//       return;
-//     }
+  /**
+   * 3. 提交按鈕事件：透過原生的 gridApi 讀取資料
+   */
+  const handleSubmit = () => {
+    if (!gridApi) {
+      alert("表格尚未準備就緒");
+      return;
+    }
 
-//     const latestData: RowData[] = [];
+    const latestData: RowData[] = [];
 
-//     // 使用原生的 api.forEachNode 遍歷所有行資料
-//     gridApi.forEachNode((node) => {
-//       if (node.data) {
-//         latestData.push(node.data);
-//       }
-//     });
+    // 使用原生的 api.forEachNode 遍歷所有行資料
+    gridApi.forEachNode((node) => {
+      if (node.data) {
+        latestData.push(node.data);
+      }
+    });
 
-//     console.log("提交的原生 Table 資料：", latestData);
-//   };
+    console.log("提交的原生 Table 資料：", latestData);
+  };
 
-//   /**
-//    * Select Cell
-//    */
-//   const DepartmentCellRenderer = (props: any) => {
-//     const [options, setOptions] = useState<DepartmentOption[]>([]);
-//     const [loading, setLoading] = useState(false);
-//     const [loaded, setLoaded] = useState(false);
+  /**
+   * Select Cell
+   */
+  const DepartmentCellRenderer = (props: any) => {
+    const [options, setOptions] = useState<DepartmentOption[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [loaded, setLoaded] = useState(false);
 
-//     const handleOpen = async () => {
-//       if (loaded) return;
-//       setLoading(true);
-//       const result = await fetchDepartments();
-//       setOptions(result);
-//       setLoaded(true);
-//       setLoading(false);
-//     };
+    const handleOpen = async () => {
+      if (loaded) return;
+      setLoading(true);
+      const result = await fetchDepartments();
+      setOptions(result);
+      setLoaded(true);
+      setLoading(false);
+    };
 
-//     const handleChange = (event: any) => {
-//       props.node.setDataValue("department", event.target.value);
-//     };
+    const handleChange = (event: any) => {
+      props.node.setDataValue("department", event.target.value);
+    };
 
-//     return (
-//       <Select
-//         size="small"
-//         fullWidth
-//         value={props.value || ""}
-//         displayEmpty
-//         onOpen={handleOpen}
-//         onChange={handleChange}
-//         style={{ marginTop: "4px" }}
-//       >
-//         <MenuItem value="" disabled>
-//           請選擇部門
-//         </MenuItem>
-//         {loading ? (
-//           <MenuItem disabled>
-//             <CircularProgress size={18} />
-//           </MenuItem>
-//         ) : (
-//           options.map((item) => (
-//             <MenuItem key={item.value} value={item.value}>
-//               {item.label}
-//             </MenuItem>
-//           ))
-//         )}
-//       </Select>
-//     );
-//   };
+    return (
+      <Select
+        size="small"
+        fullWidth
+        value={props.value || ""}
+        displayEmpty
+        onOpen={handleOpen}
+        onChange={handleChange}
+        style={{ marginTop: "4px" }}
+      >
+        <MenuItem value="" disabled>
+          請選擇部門
+        </MenuItem>
+        {loading ? (
+          <MenuItem disabled>
+            <CircularProgress size={18} />
+          </MenuItem>
+        ) : (
+          options.map((item) => (
+            <MenuItem key={item.value} value={item.value}>
+              {item.label}
+            </MenuItem>
+          ))
+        )}
+      </Select>
+    );
+  };
 
-//   const columnDefs = useMemo<ColDef<RowData>[]>(
-//     () => [
-//       { field: "id", width: 100 },
-//       {
-//         field: "name",
-//         flex: 1,
-//         // 顯示格式化：讓表格沒在編輯時也能呈現錢字號
-//         valueFormatter: (p) => (p.value ? `_${p.value}_` : "--"),
-//       },
-//       {
-//         headerName: "部門",
-//         field: "department",
-//         flex: 1,
-//         cellRenderer: DepartmentCellRenderer,
-//       },
-//     ],
-//     [],
-//   );
+  const columnDefs = useMemo<ColDef<RowData>[]>(
+    () => [
+      { field: "id", width: 100 },
+      {
+        field: "name",
+        flex: 1,
+        // 顯示格式化：讓表格沒在編輯時也能呈現錢字號
+        valueFormatter: (p) => (p.value ? `_${p.value}_` : "--"),
+      },
+      {
+        headerName: "部門",
+        field: "department",
+        flex: 1,
+        cellRenderer: DepartmentCellRenderer,
+      },
+    ],
+    [],
+  );
 
-//   return (
-//     <div
-//       style={{
-//         width: "100%",
-//         display: "flex",
-//         flexDirection: "column",
-//         gap: "16px",
-//       }}
-//     >
-//       <AgGridProvider modules={modules}>
-//         <div
-//           className="ag-theme-quartz"
-//           style={{
-//             height: 400,
-//             width: "100%",
-//           }}
-//         >
-//           {/* 4. 綁定原生的 onGridReady 事件 */}
-//           <AgGridReact
-//             rowData={rowData}
-//             columnDefs={columnDefs}
-//             rowHeight={45}
-//             onGridReady={onGridReady}
-//           />
-//         </div>
-//       </AgGridProvider>
+  return (
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        gap: "16px",
+      }}
+    >
+      <AgGridProvider modules={modules}>
+        <div
+          className="ag-theme-quartz"
+          style={{
+            height: 400,
+            width: "100%",
+          }}
+        >
+          {/* 4. 綁定原生的 onGridReady 事件 */}
+          <AgGridReact
+            rowData={rowData}
+            columnDefs={columnDefs}
+            rowHeight={45}
+            onGridReady={onGridReady}
+          />
+        </div>
+      </AgGridProvider>
 
-//       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-//         <Button variant="contained" color="primary" onClick={handleSubmit}>
-//           Submit 提交資料
-//         </Button>
-//       </div>
-//     </div>
-//   );
-// };
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
+          Submit 提交資料
+        </Button>
+      </div>
+    </div>
+  );
+};
 
-// export default GridForm;
+export default GridForm;
 
 //-----------------------------企業版方案
 

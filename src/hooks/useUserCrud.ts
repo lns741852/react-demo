@@ -4,7 +4,20 @@ import type { UserFormValues, UserItem } from "@/types/user";
 import { mockData } from "@/mock/user";
 
 export const useUserCrud = () => {
-  const [list, setList] = useState<UserItem[]>(mockData);
+  const [list, setList] = useState<UserItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const searchUsers = (name: string, address: string) => {
+    console.log(name + address);
+    setLoading(true);
+    try {
+      setList(mockData);
+    } catch (error) {
+      console.error("Failed to fetch users", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const updateUser = (id: number, values: UserFormValues) => {
     setList(
@@ -28,12 +41,13 @@ export const useUserCrud = () => {
 
   return {
     list,
+    loading,
+    searchUsers, // 暴露給外部按鈕呼叫
     createUser,
     updateUser,
     deleteUser,
   };
 };
-
 
 /*  crud常用方法
 
@@ -66,7 +80,6 @@ prev.some(...)
 // 物件刪除欄位
 const { password, ...rest } = prev
 */
-
 
 /* 
 

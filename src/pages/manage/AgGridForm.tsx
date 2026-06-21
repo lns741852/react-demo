@@ -255,7 +255,21 @@ const GridForm: FC = () => {
         displayEmpty
         onOpen={handleOpen}
         onChange={handleChange}
-        style={{ marginTop: "4px" }}
+        sx={{
+          height: "100%",
+          "& .MuiOutlinedInput-notchedOutline": {
+            border: "none", // 移除 MUI Select 的外框線
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            border: "none", // 聚焦時也不顯示外框線
+          },
+          "& .MuiSelect-select": {
+            paddingTop: 0, // 移除上下內邊距讓文字垂直置中
+            paddingBottom: 0,
+            display: "flex",
+            alignItems: "center",
+          },
+        }}
       >
         <MenuItem value="" disabled>
           請選擇部門
@@ -289,6 +303,7 @@ const GridForm: FC = () => {
         field: "department",
         flex: 1,
         cellRenderer: DepartmentCellRenderer,
+        cellStyle: { padding: 0 },
       },
     ],
     [],
